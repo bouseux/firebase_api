@@ -1,6 +1,6 @@
 <html>
     <head>
-        <script src="https://cdn.firebase.com/v0/firebase.js"></script>
+        <script src='https://cdn.firebase.com/js/client/1.1.1/firebase.js'></script>
     </head>
     <body>
     <script type="text/javascript">
@@ -8,7 +8,15 @@
             var url = "https://popping-torch-7013.firebaseio.com/";
             var firebaseRef = new Firebase(url);
     
-            firebaseRef.set("OK@");
+            //firebaseRef.set({name:"MacTaylor",friends:["Mac","Eric","Java"]});
+            //firebaseRef.push({name:"Eric",friends:["Mac","Java"]});
+            /*firebaseRef.on('value',function(snapshot){
+                console.log(snapshot.val());
+            });
+            })();*/
+            firebaseRef.on('child_added',function(snapshot){
+                console.log(snapshot.val());
+                });
             })();
     </script>
     </body>
