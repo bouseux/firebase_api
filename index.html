@@ -29,10 +29,18 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <!-- highlight CSS-->
+    <link rel="stylesheet" href="./styles/monokai_sublime.css">
+
+    <!-- highlight Javascript -->
+    <script src="./styles/highlight.min.js"></script>
+
+
+    <script>hljs.initHighlightingOnLoad();</script>
+
 </head>
 
 <body>
-
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
         <div class="container-fluid">
@@ -77,11 +85,12 @@
                            <br>
                            <span class="subheading">New Post!</span>
                            <br>
-                            <form class="form-inline" role="form">
+                            <form class="form-inline" role="form" action="#">
                                 <input type="text" class="form-control" placeholder="Name@website.com">
                                 <input type="text" class="form-control" placeholder="Tag"><br>
                                 <br>
-                                <textarea class="form-control" placeholder="POST Write in here - example: code: <p>Hello World</p>" rows="4" cols="46"></textarea>
+                                <textarea class="form-control" placeholder="POST Write in here - example: code: <p>Hello World</p>" rows="4" cols="46"></textarea><br><br>
+                                <button type="button" id="ifclick" class="btn btn-default">Done</button>
                             </form>
                     </div>
                 </div>
@@ -93,6 +102,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
                 <!---->
                 <div class="post-preview">
                     <a href="#">
@@ -105,19 +115,27 @@
                     </a>
                     <p>
                         代碼是這樣的:
-                        console.log("wow");
+
+                        <pre><code class="javascript">var a = 10;<br>console.log("wow");</code></pre>
                     </p>
-                    <p class="post-meta">Posted by <a href="#">Mac Taylor</a> on September 24, 2014</p>
+                    <p class="post-meta">Posted by <script>
+                        var str = "MacTaylor@http://elecsofts.net";
+                        var name = /[A-Za-z0-9]+n*/.exec(str);
+                        var website = 'http://google.com';
+                        document.write('<a href="'+ website +'" target="_blank">'+name+'</a>');
+                    </script> on <script>document.write(new Date)</script></p>
                 </div>
                 <!---->
+
+
                 <hr>
                 <!-- Pager -->
-                <ul class="pager">
+                <!--<ul class="pager">
                     <li class="next">
                         <a href="#">Older Posts &rarr;</a>
                     </li>
                 </ul>
-            </div>
+            </div>-->
         </div>
     </div>
 
