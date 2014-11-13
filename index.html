@@ -119,10 +119,11 @@
                         <pre><code class="javascript">var a = 10;<br>console.log("wow");</code></pre>
                     </p>
                     <p class="post-meta">Posted by <script>
-                        var str = "MacTaylor@http://elecsofts.net";
+                        var str = "MacTaylor@elecsofts.net";
                         var name = /[A-Za-z0-9]+n*/.exec(str);
-                        var website = 'http://google.com';
-                        document.write('<a href="'+ website +'" target="_blank">'+name+'</a>');
+                        var website = /@([.0-9a-z_-]+)/gi.exec(str);
+
+                        document.write('<a href="'+ 'http://'+website[1] +'" target="_blank">'+name+'</a>');
                     </script> on <script>document.write(new Date)</script></p>
                 </div>
                 <!---->
