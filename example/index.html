@@ -9,13 +9,14 @@
             var firebaseRef = new Firebase(url);
     
             //firebaseRef.set({name:"MacTaylor",friends:["Mac","Eric","Java"]});
-            //firebaseRef.push({name:"Eric",friends:["Mac","Java"]});
+            //var dats = new Date();
+            //firebaseRef.push({title:"OK Guys",name:"Eric@elecosfts.net",tag:"javascript",post:'code: var gg = 10; <br> console.log("123") /code',date:dats.toString()});
             /*firebaseRef.on('value',function(snapshot){
                 console.log(snapshot.val());
             });
             })();*/
             firebaseRef.on('child_added',function(snapshot){
-                console.log(snapshot.val());
+                document.write(snapshot.val().name);
                 });
             })();
     </script>

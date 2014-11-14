@@ -36,7 +36,12 @@
     <script src="./styles/highlight.min.js"></script>
 
 
-    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+        hljs.initHighlightingOnLoad();
+    </script>
+
+    <!--Firebase-->
+    <script src='https://cdn.firebase.com/js/client/1.1.1/firebase.js'></script>
 
 </head>
 
@@ -81,82 +86,103 @@
                         <h1>Min Post</h1>
                         <hr class="small">
                         <span class="subheading">A Min, fast, open static post system</span>
-                           <br>
-                           <br>
-                           <span class="subheading">New Post!</span>
-                           <br>
-                            <form class="form-inline" role="form" action="#">
-                                <input type="text" class="form-control" placeholder="Name@website.com">
-                                <input type="text" class="form-control" placeholder="Tag"><br>
-                                <br>
-                                <textarea class="form-control" placeholder="POST Write in here - example: code: <p>Hello World</p>" rows="4" cols="46"></textarea><br><br>
-                                <button type="button" id="ifclick" class="btn btn-default">Done</button>
-                            </form>
+                        <br>
+                        <br>
+                        <span class="subheading">New Post!</span>
+                        <br>
+                        <form class="form-inline" role="form" action="#">
+                            <input id="names" type="text" class="form-control" placeholder="Name@website.com">
+                            <input id="tags" type="text" class="form-control" placeholder="Tag">
+                            <br>
+                            <br>
+                            <input id="titles" align="center" type="text" class="form-control" size="46" placeholder="Title">
+                            <br>
+                            <textarea id="posts" class="form-control" placeholder="POST Write in here - example: code: <p>Hello World</p>, content length need bigger than 10" rows="4" cols="46" onkeypress="return runScript(event)"></textarea>
+                            <br>
+                            <br>
+                            <button type="button" id="ifclick" onclick="subs()" class="btn btn-default">Done</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </header>
 
+    <script type="text/javascript">
+        function runScript(e) {
+                if (e.keyCode == 13) {
+                    subs();
+                    return false;
+                }
+            }
+        function subs() {
+            var url = "https://popping-torch-7013.firebaseio.com/";
+            var firebaseRef = new Firebase(url);
+            var name = $("#names").val();
+            var tag = $("#tags").val();
+            var title = $("#titles").val();
+            var post = $("#posts").val();
+            if(name.indexOf("@") != -1 && name.length > 1 && tag.length > 1 && title.length > 1 && post.length > 10){
+                var dats = new Date();
+                firebaseRef.push({title:title.toString(),name:name.toString(),tag:tag.toString(),post:post,date:dats.toString()});
+                $("#names").val(null);
+                $("#tags").val(null);
+                $("#titles").val(null);
+                $("#posts").val(null);
+            }else{
+                alert("Bad Enter!");
+            }
+        }
+            (function() {
+                var url = "https://popping-torch-7013.firebaseio.com/";
+                var firebaseRef = new Firebase(url);
+
+                firebaseRef.on('child_added', function(snapshot) {
+                    var str = snapshot.val().name;
+                    var name = /[A-Za-z0-9]+n*/.exec(str);
+                    var website = /@([.0-9a-z_-]+)/gi.exec(str);
+
+                    var post = snapshot.val().post;
+
+                    if (post.indexOf("code: ") != -1) {
+                        post = post.replace("code: ", '<pre><code class="javascript hljs">');
+                        post = post.replace(" /code", '</code></pre>');
+                    }
+
+                    var ind = document.createElement('div');
+                    ind.className = "post-preview";
+                    var ac = document.getElementById("inside").appendChild(ind).innerHTML = '<a href="#"><h2 class="post-title">' + snapshot.val().title + '</h2><h3 class="post-subtitle"># ' + snapshot.val().tag + '</h3></a><p>' + post + '</p><p class="post-meta">Posted by ' + '<a href="' + 'http://' + website[1] + '" target="_blank">' + name + '</a>' + ' ' + snapshot.val().date + '<hr>';
+
+                    hljs.fixMarkup(ind);
+                    console.log();
+                });
+            })();
+    </script>
+
     <!-- Main Content -->
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-
-                <!---->
-                <div class="post-preview">
-                    <a href="#">
-                        <h2 class="post-title">
-                            今天星期不錯
-                        </h2>
-                        <h3 class="post-subtitle">
-                            # ECMAScript 6
-                        </h3>
-                    </a>
-                    <p>
-                        代碼是這樣的:
-
-                        <pre><code class="javascript">var a = 10;<br>console.log("wow");</code></pre>
-                    </p>
-                    <p class="post-meta">Posted by <script>
-                        var str = "MacTaylor@elecsofts.net";
-                        var name = /[A-Za-z0-9]+n*/.exec(str);
-                        var website = /@([.0-9a-z_-]+)/gi.exec(str);
-
-                        document.write('<a href="'+ 'http://'+website[1] +'" target="_blank">'+name+'</a>');
-                    </script> on <script>document.write(new Date)</script></p>
-                </div>
-                <!---->
-
-
-                <hr>
-                <!-- Pager -->
-                <!--<ul class="pager">
-                    <li class="next">
-                        <a href="#">Older Posts &rarr;</a>
-                    </li>
-                </ul>
-            </div>-->
+            <div id="inside" class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            </div>
         </div>
-    </div>
 
-    <hr>
+        <hr>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <p class="copyright text-muted">Copyright &copy; Min POST 2014</p>
-        </div>
-    </footer>
+        <!-- Footer -->
+        <footer>
+            <div class="container">
+                <p class="copyright text-muted">Copyright &copy; Min POST 2014</p>
+            </div>
+        </footer>
 
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
+        <!-- jQuery -->
+        <script src="js/jquery.js"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+        <!-- Bootstrap Core JavaScript -->
+        <script src="js/bootstrap.min.js"></script>
 
-    <!-- Custom Theme JavaScript -->
-    <script src="js/clean-blog.min.js"></script>
+        <!-- Custom Theme JavaScript -->
+        <script src="js/clean-blog.min.js"></script>
 
 </body>
 
