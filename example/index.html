@@ -16,9 +16,25 @@
             });
             })();*/
             firebaseRef.on('child_added',function(snapshot){
-                document.write(snapshot.val().name);
+                console.log(snapshot.val());
                 });
             })();
     </script>
+    <div id="row">
+        <div id="inside">foo bar</div>
+    </div>
+
+<script>
+    // Create a new, plain <span> element
+    var sp1 = document.createElement("div");
+    sp1.innerHTML = "gg<br>";
+    // Get a reference to the element, before we want to insert the element
+    var sp2 = document.getElementById("inside");
+    // Get a reference to the parent element
+    var parentDiv = sp2.parentNode;
+
+    // Insert the new element into the DOM before sp2
+    parentDiv.insertBefore(sp1, sp2);
+</script>
     </body>
 </html>

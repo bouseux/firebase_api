@@ -132,7 +132,7 @@
             }else{
                 alert("Bad Enter!");
             }
-        }
+        }i = 1;
             (function() {
                 var url = "https://popping-torch-7013.firebaseio.com/";
                 var firebaseRef = new Firebase(url);
@@ -148,13 +148,20 @@
                         post = post.replace("code: ", '<pre><code class="javascript hljs">');
                         post = post.replace(" /code", '</code></pre>');
                     }
-
+                    
+                    /*
                     var ind = document.createElement('div');
-                    ind.className = "post-preview";
+                    ind.sp1.className = "post-preview";
                     var ac = document.getElementById("inside").appendChild(ind).innerHTML = '<a href="#"><h2 class="post-title">' + snapshot.val().title + '</h2><h3 class="post-subtitle"># ' + snapshot.val().tag + '</h3></a><p>' + post + '</p><p class="post-meta">Posted by ' + '<a href="' + 'http://' + website[1] + '" target="_blank">' + name + '</a>' + ' ' + snapshot.val().date + '<hr>';
+                    */
 
-                    hljs.fixMarkup(ind);
-                    console.log();
+                    var sp1 = document.createElement("div");
+                    sp1.className = "post-preview";
+                    sp1.innerHTML = '<a href="#"><h2 class="post-title">' + snapshot.val().title + '</h2><h3 class="post-subtitle"># ' + snapshot.val().tag + '</h3></a><p>' + post + '</p><p class="post-meta">Posted by ' + '<a href="' + 'http://' + website[1] + '" target="_blank">' + name + '</a>' + ' ' + snapshot.val().date + '<hr>';
+                    
+                    var sp2 = document.getElementsByClassName("post-preview")[0];
+                    var parentDiv = sp2.parentNode;
+                    parentDiv.insertBefore(sp1, sp2);
                 });
             })();
     </script>
@@ -163,11 +170,9 @@
     <div class="container">
         <div class="row">
             <div id="inside" class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-preview"></div>
             </div>
         </div>
-
-        <hr>
-
         <!-- Footer -->
         <footer>
             <div class="container">
